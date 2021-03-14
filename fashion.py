@@ -12,7 +12,7 @@ sheet_fullsleeve=wb.sheet_by_index(1)
 sheet_Hoodie=wb.sheet_by_index(2)
 sheet_Coat=wb.sheet_by_index(3)
 sheet_Jersey=wb.sheet_by_index(4)
-######################################################3
+#############################################################
 
 ##################################################################################################################
 canvas_polo = Canvas(root,background='sky blue', width = 1000, height = 700)      
@@ -20,7 +20,131 @@ canvas_polo.place(x=150,y=0)
 
 entry=Entry(root)
 entry.place(x = 0,y = 0)
+def clear_screen():
+    canvas_polo.place(x=1600,y=0)
+    canvas_fullsleeve.place(x=1600,y=0)
+    canvas_Hoodie.place(x=1600,y=0)
+    canvas_Coat.place(x=1600,y=0)
+    canvas_Jersey.place(x=1600,y=0)
+    b1n.place(x=1600,y=0)
+    b2n.place(x=1600,y=0)
+    b2p.place(x=1600,y=0)
+    b3n.place(x=1600,y=0)
+    b3p.place(x=1600,y=0)
+    b4n.place(x=1600,y=0)
+    b4p.place(x=1600,y=0)
+    b5p.place(x=1600,y=0)
+def search_button():
+    searchtxt=entry.get()
+    #print(searchtxt)
+    tags1=searchtxt.split(" ")
+    print(tags1)
+    searchset=set(tags1)
+    print(searchset)
+    
+    
+    tagsc1=sheet_polo.cell_value(1,2).split(",")
+    tagc1s=set(tagsc1)
+    print(tagc1s)
+    
+    tagsc2=sheet_fullsleeve.cell_value(1,2).split(",")
+    tagc2s=set(tagsc2)
+    print(tagc2s)
+    
+    tagsc3=sheet_Hoodie.cell_value(1,2).split(",")
+    tagc3s=set(tagsc3)
+    print(tagc3s)
 
+    tagsc4=sheet_Coat.cell_value(1,2).split(",")
+    tagc4s=set(tagsc4)
+    print(tagc4s)
+    
+    tagsc5=sheet_Jersey.cell_value(1,2).split(",")
+    tagc5s=set(tagsc5)
+    print(tagc5s)
+
+    match1=searchset.intersection(tagc1s)
+    print(len(match1))
+    match2=searchset.intersection(tagc2s)
+    print(len(match2))
+    match3=searchset.intersection(tagc3s)
+    print(len(match3))
+    match4=searchset.intersection(tagc4s)
+    print(len(match4))
+    match5=searchset.intersection(tagc5s)
+    print(len(match5))    
+    if ((len(match1)>len(match2)) and (len(match1)>len(match3)) and (len(match1)>len(match4)) and (len(match1)>len(match5))):
+        print("polo wins")
+        clear_screen()
+        canvas_polo.place(x=150,y=0)
+        b1n.place(x=1200,y=400)
+    elif ((len(match2)>len(match1))and (len(match2)>len(match3))and (len(match2)>len(match4)) and (len(match2)>len(match5))):
+        print("fullsleeve wins")
+        clear_screen()
+        canvas_fullsleeve.place(x=150,y=0)
+        b2n.place(x=1200,y=400)
+        b2p.place(x=10,y=400)
+    elif ((len(match3)>len(match1))and (len(match3)>len(match2))and (len(3)>len(match4)) and (len(match3)>len(match5))):
+        print("hoodie wins")
+        clear_screen()
+        canvas_Hoodie.place(x=150,y=0)
+        b3n.place(x=1200,y=400)
+        b3p.place(x=10,y=400)
+    elif ((len(match4)>len(match1))and (len(match4)>len(match2))and (len(match4)>len(match3)) and (len(match4)>len(match5))):
+        print("coat wins")
+        clear_screen()
+        canvas_Coat.place(x=150,y=0)
+        b4n.place(x=1200,y=400)
+        b4p.place(x=10,y=400)
+    else:
+        print("coat wins")
+        clear_screen()
+        canvas_Jersey.place(x=150,y=0)
+        b5p.place(x=10,y=400)
+
+search=Button(root,text="search",command=search_button)
+search.place(x=0,y=15)
+
+
+####################################################cart count button###########################################################
+def cart():
+    pass
+cart=Button(root,text="0")
+cart.place(x=1280,y=0,width=50,height=30)
+
+
+cartCount=0
+def polo1p(event):
+    global cartCount
+    cartCount=cartCount+1
+    cart.config(text=cartCount) 
+def polo1n(event):
+    global cartCount
+    if (cartCount==0):
+        pass
+    else:
+        cartCount=cartCount-1
+        cart.config(text=cartCount)
+        
+
+    
+buttonBG = canvas_polo.create_rectangle(0, 250, 50, 280, fill="white", outline="grey60")
+buttonTXT = canvas_polo.create_text(20, 265, text="+",fill="red",font=40)
+canvas_polo.tag_bind(buttonBG, "<Button-1>", polo1p) ## polo add.
+canvas_polo.tag_bind(buttonTXT, "<Button-1>", polo1p)
+
+
+
+buttonNeg = canvas_polo.create_rectangle(100, 250, 150, 280, fill="white", outline="grey60")
+buttonNeg_2 = canvas_polo.create_text(120, 265, text="-",fill="black",font=40)
+canvas_polo.tag_bind(buttonNeg, "<Button-1>", polo1n) ## polo sub.
+canvas_polo.tag_bind(buttonNeg_2, "<Button-1>", polo1n)
+
+
+    
+
+##########################################################################################################################################################
+####################################################################CANVAS CODE###########################################################################
 #blue
 imgPoloBlue= PhotoImage(file="E:/Assignments/python/BY_JHONTY/Fashion/Polo/poloBlue.png")      
 canvas_polo.create_image(10,10, anchor=NW, image=imgPoloBlue)
@@ -66,8 +190,6 @@ labelPoloWhitePrice=Label(canvas_polo,text=sheet_polo.cell_value(6,1)).place(x =
 
 
 ####################################################################################################
-######################
-
 ####################################################################################################
 
 canvas_fullsleeve = Canvas(root,background='navy blue', width = 1000, height = 700)
@@ -114,7 +236,7 @@ labelFullSleeveWhite=Label(canvas_fullsleeve,text=sheet_fullsleeve.cell_value(6,
 labelFullSleeveWhitePrice=Label(canvas_fullsleeve,text=sheet_fullsleeve.cell_value(6,1)).place(x = 875,y = 625)
 
 
-
+####################################################################################################
 ####################################################################################################
 
 
@@ -254,20 +376,10 @@ labelJerseyWhite=Label(canvas_Jersey,text=sheet_Jersey.cell_value(6,0)).place(x 
 labelJerseyWhitePrice=Label(canvas_Jersey,text=sheet_Jersey.cell_value(6,1)).place(x = 875,y = 625)
 
 
-
-
-
-
-
-
-
-
-
-
-
+##############################################################################################################################################################
 ##############################################################################################################################################################
 
-#New CMD added today####################################################################################################
+###########################################################BUTTON COMMAND TO DISPLAY NEXT CANVAS#################################################################
 def b1n():
     canvas_fullsleeve.place(x=150,y=0)
     canvas_polo.place(x=1500,y=0)
